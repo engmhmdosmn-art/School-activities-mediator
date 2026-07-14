@@ -18,10 +18,32 @@ jobs:
           channel: 'stable'
 
       - name: Install dependencies
-        run: flutter pub get
+        id: pub_get
+        run: flutter pub get 2>&1 | tee pub_get.log
+        continue-on-error: true
+
+      - name: Surface pub get error as annotation
+        if: steps.pub_get.outcome == 'failure'
+        run: |
+          tail -n 25 pub_get.log | while IFS= read -r line; do
+            safe=$(echo "$line" | sed 's/%/%25/g; s/\r/%0D/g; s/\n/%0A/g')
+            echo "::error::$safe"
+          done
+          exit 1
 
       - name: Build release APK
-        run: flutter build apk --release
+        id: build_apk
+        run: flutter build apk --release 2>&1 | tee build_apk.log
+        continue-on-error: true
+
+      - name: Surface build error as annotation
+        if: steps.build_apk.outcome == 'failure'
+        run: |
+          tail -n 25 build_apk.log | while IFS= read -r line; do
+            safe=$(echo "$line" | sed 's/%/%25/g; s/\r/%0D/g; s/\n/%0A/g')
+            echo "::error::$safe"
+          done
+          exit 1
 
       # Always available under the workflow run's "Artifacts" section,
       # even for private repos or if the release step is skipped.
