@@ -5,6 +5,9 @@ on:
     branches: [ main ]
   workflow_dispatch: {}
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,7 +22,10 @@ jobs:
 
       - name: Install dependencies
         id: pub_get
-        run: flutter pub get 2>&1 | tee pub_get.log
+        shell: bash
+        run: |
+          set -o pipefail
+          flutter pub get 2>&1 | tee pub_get.log
         continue-on-error: true
 
       - name: Surface pub get error as annotation
@@ -33,7 +39,10 @@ jobs:
 
       - name: Build release APK
         id: build_apk
-        run: flutter build apk --release 2>&1 | tee build_apk.log
+        shell: bash
+        run: |
+          set -o pipefail
+          flutter build apk --release 2>&1 | tee build_apk.log
         continue-on-error: true
 
       - name: Surface build error as annotation
