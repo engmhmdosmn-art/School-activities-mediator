@@ -1,0 +1,30 @@
+name: school_activity_mediator
+description: "الوسيط المدرسي والأنشطة - تطبيق لمساعدة الأهالي في اختيار وتنفيذ مشاريع مدرسية وأشغال يدوية"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.6
+  provider: ^6.1.2          # State management
+  google_fonts: ^6.2.1      # Cairo font for Arabic UI
+  pdf: ^3.10.8               # Generate real PDF posters / worksheets
+  printing: ^5.13.1          # Send PDFs to Android print dialog / share
+  image_picker: ^1.1.2       # Upload school logo (gallery/camera)
+  confetti: ^0.7.0           # Celebration effect on DIY project completion
+  intl: ^0.19.0               # Arabic date formatting
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
