@@ -20,6 +20,13 @@ jobs:
         with:
           channel: 'stable'
 
+      - name: Generate native Android project files
+        run: flutter create --platforms=android .
+
+      - name: Set Arabic app name
+        run: |
+          sed -i 's/android:label="[^"]*"/android:label="الوسيط المدرسي والأنشطة"/' android/app/src/main/AndroidManifest.xml
+
       - name: Install dependencies
         id: pub_get
         shell: bash
